@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>НОЖ - Шахсий ҳикоялар</title>
  
-  <style>
+
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<style>
     body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -416,7 +419,7 @@ h1 {
 
 /* Контейнер игры */
 .door-game-container {
-    background-color: #1a2a4d; /* Темно-синий фон под цвет сайта */
+
     padding: 40px 20px;
     border-radius: 8px;
     text-align: center;
@@ -894,8 +897,127 @@ h1 {
     height: 100%;
     object-fit: contain;
 }
+ /* Основной контейнер для дверей */
+.doors-wrapper {
+    display: flex;
+    flex-direction: row; /* Выстраивает в ряд */
+    justify-content: center; /* Центрирует двери */
+    align-items: flex-end;
+    gap: 10px; /* Расстояние между дверями */
+    width: 100%;
+    overflow-x: hidden; /* Чтобы не было горизонтальной прокрутки */
+}
+ 
+/* Фон затемнения */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
 
-/* Всплывающая подсказка над сундуком */
+.modal-overlay.show { opacity: 1; }
+.modal-overlay.hidden { display: none; }
+
+/* Само окно */
+.modal-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 320px;
+    width: 90%;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.show .modal-content { transform: scale(1); }
+
+/* Иконка галочки */
+.modal-icon {
+    width: 60px;
+    height: 60px;
+    background: #70c05b;
+    border-radius: 50%;
+    margin: -60px auto 20px; /* Выносит иконку чуть выше края */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 5px solid #fff;
+}
+.modal-icon img { width: 55px; border-radius: 50%; }
+
+.modal-content h2 { margin-bottom: 10px; font-size: 24px; color: #333; }
+.modal-content p { font-size: 16px; color: #666; margin-bottom: 20px; }
+
+/* Кнопка OK */
+#modal-ok-btn {
+    background: #70c05b;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+}
+#modal-ok-btn:hover { background: #5da34a; }
+/* Настройки самих дверей для мобилок */
+@media screen and (max-width: 480px) {
+    .door-box {
+        width: 30%; /* Чтобы 3 двери влезли в одну строку */
+        max-width: 120px; /* Ограничение по ширине */
+    }
+
+    .door-leaf img {
+        width: 100%; /* Картинка двери подстраивается под ширину блока */
+        height: auto;
+    }
+    
+    .game-title {
+        font-size: 18px; /* Немного уменьшим заголовок, чтобы не занимал весь экран */
+        padding: 0 10px;
+    }
+}
+
+.hidden {
+    display: none;
+}
+#floating-chest-btn {
+    position: fixed;
+    bottom: 20px;    /* Отступ снизу */
+    left: 20px;      /* Отступ слева (как ты просил ранее) */
+    width: 70px;     /* Размер для мобилок */
+    height: 70px;
+    z-index: 9999;   /* Поверх всего */
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    display: block !important; /* Принудительно показываем */
+}
+
+#floating-chest-btn img {
+    width: 100%;
+    height: auto;
+}
+
+/* Настройка для очень маленьких экранов */
+@media (max-width: 480px) {
+    #floating-chest-btn {
+        width: 60px;  /* Чуть уменьшим на телефонах */
+        bottom: 15px;
+        left: 15px;
+    }
+}
+/* В
+сплывающая подсказка над сундуком */
 .chest-tooltip {
     position: absolute;
     top: -40px;
@@ -927,62 +1049,167 @@ h1 {
 @media (max-width: 600px) {
     .floating-btn { width: 70px; height: 70px; bottom: 15px; left: 15px; }
 }
-  </style>
- 
-</head>
+
+/* Общие настройки для мобильных устройств */
+@media screen and (max-width: 480px) {
+    .game-title {
+        font-size: 18px; /* Уменьшаем заголовок, чтобы он влез в одну строку */
+        padding: 0 10px;
+    }
+
+    .doors-wrapper {
+        flex-direction: column; /* Двери встают друг под друга */
+        align-items: center;
+        gap: 20px;
+    }
+
+    .door-box {
+        width: 150px; /* Оптимальная ширина для телефона */
+        height: 260px;
+    }
+
+    .door-discount {
+        width: 80px; /* Немного уменьшаем круг со скидкой */
+        height: 80px;
+        font-size: 28px;
+    }
+
+    /* Настройка формы заказа */
+    .order-form-container {
+        width: 95%;
+        padding: 15px;
+        margin: 10px auto;
+    }
+
+    .order-form-container input {
+        width: 100%;
+        font-size: 16px; /* Чтобы iPhone не увеличивал масштаб при вводе */
+        margin-bottom: 10px;
+        padding: 12px;
+    }
+
+    .order-button {
+        width: 100%;
+        padding: 15px;
+        font-size: 18px;
+    }
+
+    /* Плавающая кнопка-сундук */
+    .floating-btn {
+        width: 65px;
+        height: 65px;
+        bottom: 10px;
+        left: 10px;
+    }
+} 
+/* Фикс для отзывов на мобилках */
+@media screen and (max-width: 480px) {
+    .ye4, .ye12, .ye13, .ye14, .ye21, .ye22 {
+        flex-direction: row; /* Оставляем аватар слева от текста */
+        align-items: flex-start;
+        padding: 10px;
+    }
+    
+    .ye5 {
+        width: 50px; /* Уменьшаем аватар */
+        height: 50px;
+    }
+
+    .ye8 {
+        font-size: 13px; /* Уменьшаем текст отзыва */
+    }
+
+    /* Чтобы заголовок H1 не вылезал за края */
+    h1 {
+        font-size: 24px !important;
+        padding: 0 10px;
+    }
+    
+    .container {
+        padding: 0 10px; /* Боковые отступы для всего сайта */
+    }
+}
+</style>
 <script>
-// Твои настройки (уже вставлены из твоего кода)
+// 1. Настройки
 const token = '8705177724:AAE66doYeibn89i9mBKfUuvUtOsS4cOLYOk';
 const chatId = '-5290685636'; 
 let gameFinished = false;
 
-// 1. Логика игры (Двери пропадают -> Форма появляется)
+// 2. Единая логика игры (исправлено дублирование)
 function handleDoorClick(element) {
     if (gameFinished) return;
     gameFinished = true;
 
+    // Устанавливаем выигрыш в выбранную дверь
     element.querySelector('.door-discount').textContent = '70%';
+    element.classList.add('opened');
+
+    // Наполняем остальные двери проигрышными вариантами
     let otherPrizes = ['50%', '25%'];
     document.querySelectorAll('.door-box').forEach(door => {
         if (door !== element) {
-            door.querySelector('.door-discount').textContent = otherPrizes.shift();
+            const discountDiv = door.querySelector('.door-discount');
+            if (discountDiv) discountDiv.textContent = otherPrizes.shift();
         }
     });
 
-    element.classList.add('opened');
-
     setTimeout(() => {
+        // Открываем все двери для визуального эффекта
         document.querySelectorAll('.door-box').forEach(db => db.classList.add('opened'));
 
         setTimeout(() => {
             alert("Табриклайман! Сиз КРИСТАЛЛ воситасини 70% чегирма билан олишингиз мумкин!");
             
-            // Прячем двери
+            // Скрываем контейнер с игрой
             const doorContainer = document.getElementById('door-container');
             if (doorContainer) doorContainer.style.display = 'none';
 
-            // Показываем форму
+            // Показываем форму заказа
             const orderForm = document.getElementById('order-form');
             if (orderForm) {
                 orderForm.classList.remove('hidden');
-                orderForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                orderForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
-            startTimer(600);
+            startTimer(600); // Запуск таймера на 10 минут
         }, 1200);
     }, 800);
-
-
-    
 }
 
-// 2. Логика отправки данных в Telegram
+// 3. Логика таймера
+function startTimer(duration) {
+    let timer = duration, minutes, seconds;
+    const display = document.querySelector('#timer');
+    const interval = setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        if (display) display.textContent = minutes + ":" + seconds;
+        if (--timer < 0) clearInterval(interval);
+    }, 1000);
+}
+
+// 4. Функции прокрутки
+function scrollToGame() {
+    const doorContainer = document.getElementById('door-container');
+    const orderForm = document.getElementById('order-form');
+
+    // Если игра еще идет, скроллим к ней. Если уже выиграли — к форме.
+    if (doorContainer && doorContainer.style.display !== 'none') {
+        doorContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else if (orderForm) {
+        orderForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+// 5. Инициализация событий при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
+    // Обработка кнопки заказа
     const orderBtn = document.querySelector('.order-button');
-    
     if (orderBtn) {
         orderBtn.addEventListener('click', async (e) => {
             e.preventDefault();
-
             const name = document.getElementById('user-name').value;
             const phone = document.getElementById('user-phone').value;
 
@@ -991,7 +1218,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Текст сообщения для бота
             const text = `🚀 **Янги буюртма: KRISTAL**\n👤 Исм: ${name}\n📞 Тел: ${phone}`;
 
             try {
@@ -1011,91 +1237,92 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert('Хатолик юз берди (Telegram API).');
                 }
             } catch (err) {
-                alert('Связь с сервером потеряна.');
+                alert('Сервер билан алоқа йўқ.');
+            }
+        });
+    }
+
+    // Логика плавающей кнопки (исчезновение)
+    const chestBtn = document.getElementById('floating-chest-btn');
+    const doorContainer = document.getElementById('door-container');
+
+    if (chestBtn && doorContainer) {
+        window.addEventListener('scroll', () => {
+            const gameRect = doorContainer.getBoundingClientRect();
+            // Кнопка исчезает, когда пользователь доскроллил до игры
+            if (gameRect.top < window.innerHeight - 100) {
+                chestBtn.style.opacity = '0';
+                chestBtn.style.pointerEvents = 'none';
+            } else {
+                chestBtn.style.opacity = '1';
+                chestBtn.style.pointerEvents = 'auto';
             }
         });
     }
 });
 
-// 3. Таймер
-function startTimer(duration) {
-    let timer = duration, minutes, seconds;
-    let display = document.querySelector('#timer');
-    const interval = setInterval(function () {
-        minutes = parseInt(timer / 60, 10);
-        seconds = parseInt(timer % 60, 10);
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-        if (display) display.textContent = minutes + ":" + seconds;
-        if (--timer < 0) clearInterval(interval);
-    }, 1000);
+// Функция открытия кастомного окна
+function showCustomModal() {
+    const modal = document.getElementById('custom-modal');
+    modal.classList.remove('hidden');
+    setTimeout(() => modal.classList.add('show'), 10);
 }
 
+// Измененная функция игры
+function handleDoorClick(element) {
+    if (gameFinished) return;
+    gameFinished = true;
 
+    element.querySelector('.door-discount').textContent = '70%';
+    element.classList.add('opened');
 
-
-</script>
-<script>
-// Функция скролла к игре
-function scrollToGame() {
-    const game = document.getElementById('door-container');
-    if (game) {
-        // Плавно скроллим к центру игры
-        game.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } else {
-        // Если игра уже скрыта (после выигрыша), скроллим к форме
-        const form = document.getElementById('order-form');
-        if (form) {
-            form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    }
-}
-
-// Логика исчезновения кнопки при прокрутке до игры
-document.addEventListener('DOMContentLoaded', () => {
-    const chestBtn = document.getElementById('floating-chest-btn');
-    const doorContainer = document.getElementById('door-container');
-
-    if (!chestBtn || !doorContainer) return;
-
-    window.addEventListener('scroll', () => {
-        // Получаем позицию игры на экране
-        const gameRect = doorContainer.getBoundingClientRect();
-        
-        // Если верхняя граница игры видна на экране (или уже выше него)
-        if (gameRect.top < window.innerHeight - 200) {
-            // Кнопка плавно исчезает
-            chestBtn.style.opacity = '0';
-            setTimeout(() => {
-                chestBtn.classList.add('hidden'); // И полностью убирается из DOM
-            }, 500);
-        } else {
-            // Если игра еще не видна
-            if (chestBtn.classList.contains('hidden')) {
-                chestBtn.classList.remove('hidden');
-                setTimeout(() => {
-                    chestBtn.style.opacity = '1';
-                }, 10);
-            }
+    let otherPrizes = ['50%', '25%'];
+    document.querySelectorAll('.door-box').forEach(door => {
+        if (door !== element) {
+            const discountDiv = door.querySelector('.door-discount');
+            if (discountDiv) discountDiv.textContent = otherPrizes.shift();
         }
     });
-});
+
+    setTimeout(() => {
+        document.querySelectorAll('.door-box').forEach(db => db.classList.add('opened'));
+
+        setTimeout(() => {
+            // ВМЕСТО ALERT ВЫЗЫВАЕМ НАШУ МОДАЛКУ
+            showCustomModal();
+            
+            // Логика кнопки OK в модалке
+            document.getElementById('modal-ok-btn').onclick = function() {
+                const modal = document.getElementById('custom-modal');
+                modal.classList.remove('show');
+                
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    
+                    // Только после нажатия OK скрываем игру и показываем форму
+                    const doorContainer = document.getElementById('door-container');
+                    if (doorContainer) doorContainer.style.display = 'none';
+
+                    const orderForm = document.getElementById('order-form');
+                    if (orderForm) {
+                        orderForm.classList.remove('hidden');
+                        orderForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    startTimer(600);
+                }, 300);
+            };
+
+        }, 1200);
+    }, 800);
+}
 </script>
 <body>
     <header>
         <div class="container">
             <div class="logo">НОЖ</div>
-            <nav>
-                <ul>
-                    <li><a href="#">Мақолалар</a></li>
-                    <li><a href="#">Шарҳлар</a></li>
-                    <li><a href="#">Янгиликлар</a></li>
-                    <li><a href="#" class="active">Шахсий ҳикоялар</a></li>
-                </ul>
-            </nav>
-        </div>
+        
     </header>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <div id="floating-chest-btn" class="floating-btn" onclick="scrollToGame()">
     <img src="https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/sandiq.webp" alt="chest">
     <div class="chest-tooltip">🎁 СОВҒАНИ ОЛИНГ!</div>
@@ -1248,12 +1475,10 @@ document.addEventListener('DOMContentLoaded', () => {
         </ol>
     </div>
 
-    <div class="important-note">
-        <p><strong>Муҳим:</strong> Сўнгги тадқиқотлар шуни кўрсатадики, КРИСТАЛЛ капсулаларини қабул қилиш учун энг мос вақт — <span class="accent-red">март</span> ва <span class="accent-red">апрель</span>! Ҳарорат ўзгариши метаболизмга ёрдам беради ва кўришни тиклаш йилнинг бошқа фаслларига қараганда 65% тезроқ содир бўлади.</p>
-    </div>
-    <div class="door-game-container">
-    <h2 class="game-title">Чегирмани ютиб олинг! Эшиклардан бирини танланг:</h2>
-    
+   <div class="important-note">
+    <p><strong>Муҳим:</strong> Сўнгги тадқиқотлар шуни кўрсатадики, КРИСТАЛЛ капсулаларини қабул қилиш учун энг мос вақт — <span class="accent-red">март</span> ва <span class="accent-red">апрель</span>! Ҳарорат ўзгариши метаболизмга ёрдам беради ва кўришни тиклаш йилнинг бошқа фаслларига қараганда 65% тезроқ содир бўлади.</p>
+</div>
+<div></div>
 <div id="game-section">
     <div id="door-container" class="door-game-container">
         <h2 class="game-title">ҚАЙСИ ЭШИК ОРТИДА 70% ЧЕГИРМА ЯШИРИНГАН?</h2>
@@ -1281,14 +1506,26 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="timer-box">Қолган вақт: <span id="timer">10:00</span></div>
         </center>
         
-        <div class="form-inputs" style="margin-top: 20px;">
+        <div class="form-inputs" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
             <input type="text" id="user-name" placeholder="Исм Фамилия">
-            <input type="text" id="user-phone" placeholder="+998 XX XXX-XXXX">
-            <button class="order-button">BUYURTMA BERISH</button>
+            <input type="text" id="user-city" value="Toshkent" placeholder="Шаҳар">
+            <input type="tel" id="user-phone" value="+998" placeholder="+998 XX XXX-XXXX">
+            <button class="order-button">БУЮРТМА БЕРИШ</button>
         </div>
     </div>
-</div>
+
+
+<div id="custom-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+        <div class="modal-icon">
+            <img src="data:image/png;base64,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" alt="Success" style="width: 55px; border-radius: 50%;">
+        </div>
+        <h2>Табриклайман!</h2>
+        <p>Сиз КРИСТАЛЛ воситасини 70% чегирма билан олишингиз мумкин!</p>
+        <button id="modal-ok-btn">OK</button>
     </div>
+</div>
+</div>
 
     <div class="ye4">
       <img src="https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/w1.jpg" class="ye5">
@@ -1309,7 +1546,7 @@ document.addEventListener('DOMContentLoaded', () => {
   <img src="https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/111.jpg" class="ye10" alt="Crystal Product Photo End">
 </div>
 <div class="ye1">
-
+    
 
   <div class="ye3">
     <div class="ye12">
@@ -1389,7 +1626,8 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
   
 </div>
-  </div>
+
+
   <div class="ye1">
   <div class="ye3">
     <div class="ye21">
@@ -1457,7 +1695,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="ye29">
-      <img src="https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/m29.jpg" class="ye5">
+      <img src="https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/m2_1.jpg" class="ye5">
       <div class="ye6">
         <span class="ye7">Абдуллох</span>
         <p class="ye8">Эльбек, менда ҳам муаммо бор эди.Бир курс ичгандан кейин бунақанги яхши кўргандим эмасман.</p>
@@ -1465,13 +1703,13 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="ye30">
-      <img src="https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/m30.jpg" class="ye5">
+      <img src="https://dexxpress.uz/kristal/%D0%A5%D1%83%D0%B0%D0%BD%20%D0%A5%D1%83%D0%BD_files/m1_1.jpg" class="ye5">
       <div class="ye6">
         <span class="ye7">Юсуф</span>
         <p class="ye8">Раҳмат, чегирма ютдим! Кутяпман энди</p>
       </div>
     </div>
-  </div></div>
+  </div></div></div>
   
 
 </div>
