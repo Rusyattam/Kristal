@@ -1401,6 +1401,85 @@ h1 {
         font-size: 14px;
     }
 }
+
+/* Жесткие финальные правила для блока игры */
+#door-container {
+    background: transparent !important;
+    color: #222 !important;
+    padding: 12px 0 !important;
+    margin: 20px 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+#door-container .game-title {
+    display: none !important;
+}
+
+#door-container .doors-wrapper {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    align-items: flex-end !important;
+    gap: 10px !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}
+
+#door-container .door-box {
+    width: 92px !important;
+    height: 150px !important;
+    margin: 0 !important;
+    flex: 0 0 auto !important;
+}
+
+#door-container .door-leaf {
+    z-index: 5 !important;
+}
+
+#door-container .door-leaf img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+}
+
+#door-container .door-discount-wrapper {
+    z-index: 1 !important;
+}
+
+#door-container .door-discount {
+    width: 52px !important;
+    height: 52px !important;
+    font-size: 16px !important;
+    border-width: 2px !important;
+}
+
+@media screen and (max-width: 480px) {
+    #door-container {
+        padding: 8px 0 !important;
+        margin: 16px 0 !important;
+    }
+
+    #door-container .doors-wrapper {
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 6px !important;
+    }
+
+    #door-container .door-box {
+        width: 78px !important;
+        height: 128px !important;
+    }
+
+    #door-container .door-discount {
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 14px !important;
+    }
+}
 </style>
 </head>
 <script>
@@ -1721,7 +1800,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 <div id="game-section">
     <div id="door-container" class="door-game-container">
-        <h2 class="game-title">ҚАЙСИ ЭШИК ОРТИДА 70% ЧЕГИРМА ЯШИРИНГАН?</h2>
         <div class="doors-wrapper">
             <div class="door-box" onclick="handleDoorClick(this)">
                 <div class="door-discount-wrapper"><div class="door-discount"></div></div>
