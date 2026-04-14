@@ -166,13 +166,14 @@
 
 .form-inputs input {
     display: block;
-    width: 90%;
-    max-width: 400px;
+    width: 80%;
+    max-width: 320px;
     margin: 10px auto;
-    padding: 12px;
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 20px;
     background: #f0f0f0;
+    box-sizing: border-box;
 }
 
 .order-button {
@@ -1503,8 +1504,8 @@ h1 {
 
 #order-form .form-inputs input,
 #order-form .order-button {
-    width: 94% !important;
-    max-width: 94% !important;
+    width: 84% !important;
+    max-width: 320px !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
     margin-inline: auto !important;
@@ -1512,7 +1513,7 @@ h1 {
 
 #order-form .form-inputs input {
     display: block !important;
-    padding: 12px 14px !important;
+    padding: 10px 12px !important;
 }
 
 @media screen and (max-width: 480px) {
@@ -1530,14 +1531,14 @@ h1 {
 
     #order-form .form-inputs input,
     #order-form .order-button {
-        width: 92% !important;
-        max-width: 92% !important;
+        width: 82% !important;
+        max-width: 300px !important;
         border-radius: 16px !important;
     }
 
     #order-form .form-inputs input {
         font-size: 16px !important;
-        padding: 11px 12px !important;
+        padding: 10px 12px !important;
     }
 
     #order-form .order-button {
@@ -1863,8 +1864,10 @@ document.addEventListener('DOMContentLoaded', () => {
    <div class="important-note">
     <p><strong>Муҳим:</strong> Сўнгги тадқиқотлар шуни кўрсатадики, КРИСТАЛЛ капсулаларини қабул қилиш учун энг мос вақт — <span class="accent-red">март</span> ва <span class="accent-red">апрель</span>! Ҳарорат ўзгариши метаболизмга ёрдам беради ва кўришни тиклаш йилнинг бошқа фаслларига қараганда 65% тезроқ содир бўлади.</p>
 </div>
+
 <div id="game-section">
-    <div id="door-container" class="door-game-container">
+
+    <div id="door-container" class="door-game-container">    <p style="font-size: 24px; color: #fff ; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Қайси эшик ортида 70% чегирма яширинган?</p>
         <div class="doors-wrapper">
             <div class="door-box" onclick="handleDoorClick(this)">
                 <div class="door-discount-wrapper"><div class="door-discount"></div></div>
@@ -1891,7 +1894,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         <div class="form-inputs" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
             <input type="text" id="user-name" placeholder="Исм Фамилия">
-            <input type="text" id="user-city" value="Toshkent" placeholder="Шаҳар">
+            <input type="text" id="user-city"  placeholder="Шаҳар">
             <input type="tel" id="user-phone" value="+998" placeholder="+998 XX XXX-XXXX">
             <button class="order-button">БУЮРТМА БЕРИШ</button>
         </div>
